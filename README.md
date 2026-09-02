@@ -2,93 +2,109 @@
 
 ## Overview
 
-A hands-on web application penetration testing project focused on identifying, validating, and documenting security vulnerabilities in a web application using industry-standard cybersecurity tools and methodologies.
+A hands-on web application penetration testing project focused on identifying, validating, and documenting security vulnerabilities using industry-standard cybersecurity tools and methodologies.
 
 The project demonstrates practical skills in web reconnaissance, HTTP analysis, vulnerability assessment, manual penetration testing, security tool usage, remediation, and retesting.
 
 ## Objectives
 
-* Perform structured web application reconnaissance
-* Analyze HTTP requests, responses, headers, cookies, and client-side behavior
-* Identify and validate common web application vulnerabilities
-* Test authentication, authorization, sessions, APIs, and input validation
-* Use industry-standard penetration testing tools
-* Document security findings with evidence
-* Recommend and verify security remediation
-* Produce a final security assessment report
+- Perform structured web application reconnaissance
+- Analyze HTTP requests and responses
+- Identify technologies and exposed services
+- Test authentication and authorization mechanisms
+- Test session and client-side security
+- Identify and validate common web vulnerabilities
+- Assess API security where applicable
+- Use industry-standard penetration testing tools
+- Capture and analyze security evidence
+- Document vulnerabilities and their impact
+- Recommend and verify remediation
+- Produce a final security assessment report
 
-## Testing Methodology
+## Methodology
 
 The assessment follows a structured workflow:
 
 **Learn → Test → Capture Evidence → Verify → Assess Impact → Remediate → Retest**
 
-Testing will be guided by the OWASP Web Security Testing methodology.
+Testing is performed progressively, combining automated tools with manual verification.
 
 ## Tools
 
-* Browser Developer Tools
-* curl
-* Nmap
-* WhatWeb
-* Wappalyzer
-* Burp Suite
-* OWASP ZAP
-* ffuf
-* Nikto
-* Gobuster
-* SQLMap
-* JWT security tools
-* Python
-* OpenSSL
-* Git/GitHub
+### Reconnaissance & Analysis
 
-Tools will be used where applicable to the application's architecture and functionality.
+- Browser Developer Tools
+- curl
+- Nmap
+- WhatWeb
+- Wappalyzer
+
+### Web Security Testing
+
+- Burp Suite
+- OWASP ZAP
+- ffuf
+- Nikto
+- Gobuster
+
+### Conditional Testing
+
+- SQLMap — when a SQL-backed application is identified
+- JWT security tools — when JWT-based authentication is identified
+
+### Supporting Tools
+
+- Python
+- OpenSSL
+- Git/GitHub security checks
 
 ## Security Areas
 
-The assessment will cover areas including:
+The assessment may cover:
 
-* Reconnaissance
-* HTTP security
-* Security headers
-* Authentication
-* Authorization
-* Session security
-* Cross-Site Scripting (XSS)
-* Injection vulnerabilities
-* CSRF
-* IDOR/BOLA
-* API security
-* CORS
-* Rate limiting
-* File upload security
-* Information disclosure
-* Client-side security
-* Business logic
-* Secrets and sensitive information exposure
+- Reconnaissance
+- HTTP security
+- Security headers
+- Authentication
+- Authorization
+- Session security
+- Cross-Site Scripting (XSS)
+- Injection vulnerabilities
+- CSRF
+- IDOR/BOLA
+- API security
+- CORS
+- Rate limiting
+- File upload security
+- Information disclosure
+- Client-side security
+- Business logic
+- Sensitive information exposure
+
+Only applicable areas will be assessed based on the application's architecture and functionality.
 
 ## Testing Environment
 
-Testing will primarily be performed against an authorized local/staging instance of the target application.
-
-**Testing Platform:** Kali Linux
-**Target Environment:** Local development environment
+**Testing Platform:** Kali Linux  
+**Target Environment:** Authorized local/staging deployment  
 **Testing Approach:** Manual and automated security testing
 
-## Evidence & Reporting
+The target application is hosted locally for the primary penetration testing activities.
 
-Important testing activities will be documented with:
+## Evidence & Documentation
 
-* Screenshots
-* Tool output
-* HTTP requests and responses
-* Reproduction steps
-* Vulnerability analysis
-* Remediation recommendations
-* Retest results
+Testing evidence will include:
 
-Sensitive information such as passwords, API keys, tokens, session cookies, and private data will not be published.
+- Screenshots
+- Command output
+- HTTP requests and responses
+- Reproduction steps
+- Vulnerability analysis
+- Impact assessment
+- Remediation recommendations
+- Retest results
+
+Sensitive information such as passwords, API keys, authentication tokens, session cookies, and personal data will be redacted before publication.
 
 ## Authorization
 
@@ -98,4 +114,6 @@ Testing is performed with explicit permission from the application owner and is 
 
 🚧 **In Progress**
 
-The project is currently in the testing phase. Findings, evidence, remediation details, and the final security assessment report will be added as the assessment progresses.
+The project is currently undergoing reconnaissance and security testing.
+
+Findings, evidence, remediation details, and the final security assessment report will be added as the assessment progresses.
