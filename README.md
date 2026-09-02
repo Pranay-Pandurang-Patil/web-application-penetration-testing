@@ -1,119 +1,210 @@
 # Web Application Penetration Testing
 
-## Overview
+Authorized web application penetration testing project focused on assessing the security of a Vue/Vite-based web application through reconnaissance, manual analysis, automated security testing, vulnerability validation, remediation, and retesting.
 
-A hands-on web application penetration testing project focused on identifying, validating, and documenting security vulnerabilities using industry-standard cybersecurity tools and methodologies.
+## Target
 
-The project demonstrates practical skills in web reconnaissance, HTTP analysis, vulnerability assessment, manual penetration testing, security tool usage, remediation, and retesting.
+**Application:** Planetorium  
+**Environment:** Authorized local development deployment  
+**Technology:** Vue.js + Vite  
+**Testing Platform:** Kali Linux
+
+## Target Application
+
+![Planetorium](reconnaissance/screenshots/website.png)
+
+---
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Objectives](#objectives)
+- [Methodology](#methodology)
+- [Testing Scope](#testing-scope)
+- [Tools](#tools)
+- [Testing Progress](#testing-progress)
+- [Documentation](#documentation)
+- [Evidence](#evidence)
+- [Authorization](#authorization)
+
+---
+
+## Project Overview
+
+This project documents a hands-on web application penetration test performed against an authorized Planetorium deployment.
+
+The assessment combines manual security analysis with industry-standard reconnaissance and web security tools.
+
+The objective is to identify, validate, document, and remediate security weaknesses while maintaining clear evidence of the testing process.
+
+---
 
 ## Objectives
 
-- Perform structured web application reconnaissance
-- Analyze HTTP requests and responses
-- Identify technologies and exposed services
-- Test authentication and authorization mechanisms
-- Test session and client-side security
-- Identify and validate common web vulnerabilities
+- Identify exposed services and technologies
+- Analyze HTTP and browser behavior
+- Discover application endpoints and attack surfaces
+- Assess authentication and authorization controls
+- Test input validation and common web vulnerabilities
 - Assess API security where applicable
-- Use industry-standard penetration testing tools
-- Capture and analyze security evidence
-- Document vulnerabilities and their impact
-- Recommend and verify remediation
-- Produce a final security assessment report
+- Validate identified vulnerabilities
+- Document security findings and evidence
+- Provide remediation recommendations
+- Perform retesting after remediation
+
+---
 
 ## Methodology
 
-The assessment follows a structured workflow:
+The assessment follows:
 
 **Learn → Test → Capture Evidence → Verify → Assess Impact → Remediate → Retest**
 
-Testing is performed progressively, combining automated tools with manual verification.
+Testing is performed progressively from reconnaissance to manual analysis, automated testing, vulnerability validation, and final reporting.
+
+---
+
+## Testing Scope
+
+### In Scope
+
+- Web application functionality
+- HTTP requests and responses
+- Client-side resources
+- Routes and endpoints
+- Authentication and authorization
+- Sessions and browser storage
+- Input validation
+- API behavior
+- Security headers
+- CORS configuration
+- Information disclosure
+- Business logic
+- Relevant services exposed by the authorized test environment
+
+### Out of Scope
+
+- Third-party systems
+- Unauthorized systems
+- Other users' systems or data
+- Denial-of-service testing
+- Destructive testing
+- Social engineering
+- Physical security testing
+- Netlify infrastructure
+
+---
 
 ## Tools
 
-### Reconnaissance & Analysis
+| Tool | Purpose |
+|---|---|
+| Firefox DevTools | Browser and network analysis |
+| curl | HTTP request and response analysis |
+| Nmap | Port and service enumeration |
+| WhatWeb | Web technology fingerprinting |
+| Wappalyzer | Client-side technology identification |
+| Burp Suite | HTTP interception and manual testing |
+| OWASP ZAP | Automated web security testing |
+| ffuf | Endpoint and parameter discovery |
+| Nikto | Web server security assessment |
+| Gobuster | Content and directory discovery |
+| SQLMap | SQL injection testing where applicable |
+| Python | Custom security testing and automation |
+| OpenSSL | TLS/security analysis where applicable |
 
-- Browser Developer Tools
-- curl
+---
+
+## Testing Progress
+
+| Phase | Status |
+|---|---|
+| Reconnaissance | Completed |
+| HTTP & Browser Analysis | Completed |
+| Burp Suite | Pending |
+| OWASP ZAP | Pending |
+| Endpoint Discovery | Pending |
+| Authentication Testing | Pending |
+| Authorization Testing | Pending |
+| Session Security | Pending |
+| Input Validation | Pending |
+| XSS Testing | Pending |
+| CSRF Testing | Pending |
+| API Security | Pending |
+| Vulnerability Validation | Pending |
+| Remediation | Pending |
+| Retesting | Pending |
+| Final Report | Pending |
+
+---
+
+## Documentation
+
+### Reconnaissance
+
+Initial reconnaissance covering Nmap, WhatWeb, and Wappalyzer.
+
+[View Reconnaissance Documentation](reconnaissance/README.md)
+
+### Web Application Testing
+
+Manual HTTP and browser-based analysis using curl and Firefox Developer Tools.
+
+[View Web Testing Documentation](web-testing/README.md)
+
+### Burp Suite
+
+[View Burp Suite Documentation](burp-suite/README.md)
+
+### OWASP ZAP
+
+[View OWASP ZAP Documentation](owasp-zap/README.md)
+
+### Vulnerability Testing
+
+[View Vulnerability Testing](vulnerability-testing/README.md)
+
+### Findings
+
+[View Security Findings](findings/findings.md)
+
+### Remediation
+
+[View Remediation](remediation/fixes.md)
+
+### Final Report
+
+[View Final Report](reports/final-report.md)
+
+---
+
+## Evidence
+
+Evidence screenshots are organized within the relevant testing sections.
+
+### Reconnaissance Evidence
+
 - Nmap
 - WhatWeb
 - Wappalyzer
+- Target application
 
-### Web Security Testing
+[View Reconnaissance Evidence](reconnaissance/README.md)
 
-- Burp Suite
-- OWASP ZAP
-- ffuf
-- Nikto
-- Gobuster
+### Web Testing Evidence
 
-### Conditional Testing
+- curl
+- Firefox Developer Tools
+- HTTP request and response analysis
 
-- SQLMap — when a SQL-backed application is identified
-- JWT security tools — when JWT-based authentication is identified
+[View Web Testing Evidence](web-testing/README.md)
 
-### Supporting Tools
+All public evidence is sanitized to remove local IP addresses and other environment-specific or sensitive information.
 
-- Python
-- OpenSSL
-- Git/GitHub security checks
-
-## Security Areas
-
-The assessment may cover:
-
-- Reconnaissance
-- HTTP security
-- Security headers
-- Authentication
-- Authorization
-- Session security
-- Cross-Site Scripting (XSS)
-- Injection vulnerabilities
-- CSRF
-- IDOR/BOLA
-- API security
-- CORS
-- Rate limiting
-- File upload security
-- Information disclosure
-- Client-side security
-- Business logic
-- Sensitive information exposure
-
-Only applicable areas will be assessed based on the application's architecture and functionality.
-
-## Testing Environment
-
-**Testing Platform:** Kali Linux  
-**Target Environment:** Authorized local/staging deployment  
-**Testing Approach:** Manual and automated security testing
-
-The target application is hosted locally for the primary penetration testing activities.
-
-## Evidence & Documentation
-
-Testing evidence will include:
-
-- Screenshots
-- Command output
-- HTTP requests and responses
-- Reproduction steps
-- Vulnerability analysis
-- Impact assessment
-- Remediation recommendations
-- Retest results
-
-Sensitive information such as passwords, API keys, authentication tokens, session cookies, and personal data will be redacted before publication.
+---
 
 ## Authorization
 
-Testing is performed with explicit permission from the application owner and is limited to the authorized application and testing environment.
+Testing is performed with explicit permission from the application owner against the authorized local development environment.
 
-## Project Status
-
-🚧 **In Progress**
-
-The project is currently undergoing reconnaissance and security testing.
-
-Findings, evidence, remediation details, and the final security assessment report will be added as the assessment progresses.
+The assessment is limited to the defined scope and does not include unauthorized systems or third-party infrastructure.
