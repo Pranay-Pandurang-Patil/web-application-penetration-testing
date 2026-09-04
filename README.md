@@ -113,16 +113,14 @@ Testing is performed progressively from reconnaissance to manual analysis, autom
 | Python | Custom security testing and automation |
 | OpenSSL | TLS/security analysis where applicable |
 
----
-
 ## Testing Progress
 
 | Phase | Status |
 |---|---|
 | Reconnaissance | Completed |
 | HTTP & Browser Analysis | Completed |
-| Burp Suite | Pending |
-| OWASP ZAP | Pending |
+| Burp Suite | Completed |
+| OWASP ZAP | In Progress |
 | Endpoint Discovery | Pending |
 | Authentication Testing | Pending |
 | Authorization Testing | Pending |
@@ -137,7 +135,6 @@ Testing is performed progressively from reconnaissance to manual analysis, autom
 | Final Report | Pending |
 
 ---
-
 ## Documentation
 
 ### Reconnaissance
