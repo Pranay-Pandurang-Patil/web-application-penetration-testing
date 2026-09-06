@@ -120,7 +120,7 @@ Testing is performed progressively from reconnaissance to manual analysis, autom
 | Reconnaissance | Completed |
 | HTTP & Browser Analysis | Completed |
 | Burp Suite | Completed |
-| OWASP ZAP | In Progress |
+| OWASP ZAP | Completed |
 | Endpoint Discovery | Pending |
 | Authentication Testing | Pending |
 | Authorization Testing | Pending |
