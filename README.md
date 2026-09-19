@@ -35,7 +35,7 @@ This project documents a hands-on web application penetration test performed aga
 
 The assessment combines manual security analysis with industry-standard reconnaissance and web security tools.
 
-The objective is to identify, validate, document, and remediate security weaknesses while maintaining clear evidence of the testing process.
+The objective is to identify, validate, document and also remediate security weaknesses while maintaining clear evidence of the testing process.
 
 ---
 
@@ -202,6 +202,6 @@ All public evidence is sanitized to remove local IP addresses and other environm
 
 ## Authorization
 
-Testing is performed with explicit permission from the application owner against the authorized local development environment.
+Testing is performed with explicit permission from the application owner against the a authorized local development environment.
 
 The assessment is limited to the defined scope and does not include unauthorized systems or third-party infrastructure.
