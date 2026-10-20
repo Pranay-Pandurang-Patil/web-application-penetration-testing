@@ -2,67 +2,131 @@
 
 Manual HTTP and browser-based security analysis of the authorized Planetorium web application.
 
+## Scope
+
+Testing focused on HTTP behavior, response headers, browser network activity, JavaScript resources, and Vue/Vite development-server behavior.
+
 ## HTTP Analysis
 
 ### curl
 
-Performed:
+Used `curl` to inspect HTTP responses, headers, and supported request methods.
 
+Tests performed:
 - HTTP response analysis
-- Request/response header inspection
 - GET request analysis
-- Verbose HTTP analysis
+- Verbose HTTP request/response inspection
+- Response header inspection
 - OPTIONS request analysis
+- Selected resource accessibility checks
 
 Key observations:
+- The application returned `HTTP 200 OK` for the main page.
+- The response used `Content-Type: text/html`.
+- `Cache-Control: no-cache` and `ETag` headers were present.
+- `Vary: Origin` was present.
+- An OPTIONS request returned `204 No Content`.
+- The OPTIONS response advertised supported HTTP methods.
+- The tested preflight response did not explicitly allow the supplied origin.
 
-- `HTTP/1.1 200 OK`
-- `Content-Type: text/html`
-- `Cache-Control: no-cache`
-- `ETag`
-- `Vary: Origin`
-- OPTIONS returned `204 No Content`
-- Supported methods were identified through the OPTIONS response
+The OPTIONS response alone does not establish a CORS vulnerability.
 
-### Browser DevTools
+## Browser DevTools Analysis
 
-Firefox Developer Tools were used to analyze:
+Firefox Developer Tools were used to inspect:
 
-- Network requests
-- HTTP methods and status codes
-- Request and response headers
+- Network requests and response status codes
+- HTTP request and response headers
 - JavaScript resources
-- Vue/Vite development resources
+- Vue and Vite development resources
 - Application initialization
+- Browser requests made while loading the application
+
+The observed resources were consistent with a Vue application served through Vite development tooling.
+
+## Vue/Vite Source Inspection
+
+Selected application resources were inspected to understand the exposed development environment.
+
+Observations:
+- `/src/main.js` returned JavaScript.
+- `/src/App.vue` returned transformed Vue component code.
+- `/package.json` returned application dependency and script metadata.
+- `/vite.config.js` returned transformed Vite configuration code.
+- The Vue response included local filesystem path metadata.
+- The transformed resources contained inline source-map data.
+- `/src/components/` returned the application HTML page rather than a directory listing.
+
+These observations indicate development-resource exposure. They do not independently establish a production vulnerability.
+
+## Security Header Assessment
+
+The main HTTP response was checked for common security headers.
+
+The observed response did not include:
+- `Content-Security-Policy`
+- `X-Frame-Options`
+- `X-Content-Type-Options`
+
+These observations are consistent with the findings identified during OWASP ZAP passive scanning.
+
+Because the target was running through a Vite development server, the missing headers are documented as observations requiring deployment-context assessment, rather than automatically classified as production vulnerabilities.
 
 ## Evidence
 
-### curl Response Headers
+### 1. Initial HTTP Response
 
-![curl response headers](screenshots/01-curl-initial-response.png)
+![Initial HTTP response](screenshots/01-curl-initial-response.png)
 
-### curl Verbose HTTP Analysis
+### 2. Verbose HTTP Analysis
 
-![curl verbose analysis](screenshots/02-curl-verbose-request-response.png)
+![Verbose HTTP request and response](screenshots/02-curl-verbose-request-response.png)
 
-### Browser Network Analysis
+### 3. Browser Network Analysis
 
 ![Browser Network analysis](screenshots/03-devtools-network-analysis.png)
 
-### HTTP Request and Response Headers
+### 4. HTTP Headers in Browser DevTools
 
-![HTTP headers](screenshots/04-devtools-http-headers.png)
+![HTTP request and response headers](screenshots/04-devtools-http-headers.png)
 
+### 5. Vue Source Metadata
+
+![Vue source metadata disclosure](screenshots/05-vue-source-metadata-disclosure.png)
+
+### 6. Vue Source Path Confirmation
+
+![Vue source path confirmation](screenshots/06-vue-source-path-confirmation.png)
+
+### 7. Vue Component Discovery
+
+![Vue component discovery](screenshots/07-vue-component-discovery.png)
+
+### 8. Components Directory Check
+
+![Components directory check](screenshots/08-vue-components-directory-check.png)
 ## Assessment Notes
 
-The application is currently running through a Vite development server. Development-server behavior and missing production security headers are therefore treated as observations rather than confirmed vulnerabilities.
-
-All potential findings will be manually verified before being reported.
+- The target was tested with authorization from its owner.
+- The application was running in a Vite development environment.
+- Development-server behavior must be distinguished from production behavior.
+- HTTP status codes and exposed resources are not automatically vulnerabilities.
+- CORS behavior must be evaluated using the complete response and browser-enforced policy.
+- Potential findings require manual verification and impact assessment.
+- Screenshots and published evidence must not expose private filesystem paths, usernames, tokens, or other sensitive information.
 
 ## Status
 
-- [x] curl HTTP analysis
+- [x] HTTP response analysis
+- [x] GET and OPTIONS request analysis
+- [x] HTTP request and response header inspection
 - [x] Browser Network analysis
-- [x] Request/response header analysis
 - [x] JavaScript resource identification
-- [x] Vue/Vite resource identification
+- [x] Vue/Vite development-resource inspection
+- [x] Selected endpoint accessibility checks
+- [x] Initial security header assessment
+- [x] Evidence collection
+
+**Phase status:** Completed — initial HTTP and browser-based analysis.
+
+**Note:** This phase does not represent completion of the overall penetration test. Authentication, authorization, input validation, vulnerability validation, remediation, and retesting are tracked separately.
