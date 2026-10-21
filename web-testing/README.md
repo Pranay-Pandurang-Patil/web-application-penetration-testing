@@ -105,6 +105,23 @@ Because the target was running through a Vite development server, the missing he
 ### 8. Components Directory Check
 
 ![Components directory check](screenshots/08-vue-components-directory-check.png)
+
+### Browser Network and Session Analysis
+
+![Browser network and session analysis](screenshots/09-browser-network-session-analysis.png)
+
+**Observations:**
+- Vue/Vite development resources loaded successfully in the displayed requests.
+- HTTP `200`, `304`, and `101` responses were observed.
+- The `101` response corresponded to the Vite development WebSocket connection.
+- No application authentication or login functionality was identified.
+- Cookies, Session Storage, and IndexedDB contained no entries during inspection.
+- Local Storage contained Vue DevTools interface preferences.
+
+**Assessment:** No authentication or session-management vulnerability was established by these checks. The observed Local Storage entries were development-tool preferences, not identified authentication credentials.
+
+
+
 ## Assessment Notes
 
 - The target was tested with authorization from its owner.
