@@ -74,8 +74,7 @@ Testing is performed progressively from reconnaissance to manual analysis, autom
 - Routes and endpoints
 - Authentication and authorization
 - Sessions and browser storage
-- Input validation
-- API behavior
+- Input validation and  API behavior
 - Security headers
 - CORS configuration
 - Information disclosure
@@ -84,8 +83,7 @@ Testing is performed progressively from reconnaissance to manual analysis, autom
 
 ### Out of Scope
 
-- Third-party systems
-- Unauthorized systems
+- Third-party systems and Unauthorized systems
 - Other users' systems or data
 - Denial-of-service testing
 - Destructive testing
