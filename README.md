@@ -1,13 +1,16 @@
 # Web Application Penetration Testing
 
-Authorized web application penetration testing project focused on assessing the security of a Vue/Vite-based web application through reconnaissance, manual analysis, automated security testing, vulnerability validation, remediation, and retesting.
+An authorized web application security assessment of a Vue.js/Vite-based application, covering reconnaissance, manual security analysis, automated scanning, vulnerability assessment, production-build inspection, and remediation recommendations.
 
 ## Target
 
-**Application:** Planetorium  
-**Environment:** Authorized local development deployment  
-**Technology:** Vue.js + Vite  
-**Testing Platform:** Kali Linux
+| Attribute | Details |
+|---|---|
+| Application | Planetorium |
+| Environment | Authorized local development and production-preview environments |
+| Technology | Vue.js + Vite |
+| Testing Platform | Kali Linux |
+| Authorization | Explicit permission from the application owner |
 
 ## Target Application
 
@@ -23,6 +26,7 @@ Authorized web application penetration testing project focused on assessing the 
 - [Testing Scope](#testing-scope)
 - [Tools](#tools)
 - [Testing Progress](#testing-progress)
+- [Security Assessment Summary](#security-assessment-summary)
 - [Documentation](#documentation)
 - [Evidence](#evidence)
 - [Authorization](#authorization)
@@ -31,36 +35,38 @@ Authorized web application penetration testing project focused on assessing the 
 
 ## Project Overview
 
-This project documents a hands-on web application penetration test performed against an authorized Planetorium deployment.
+This project documents a hands-on penetration testing assessment performed against an authorized Planetorium web application.
 
-The assessment combines manual security analysis with industry-standard reconnaissance and web security tools.
+The assessment combines manual security analysis with industry-standard reconnaissance and web application security tools.
 
-The objective is to identify, validate, document and also remediate security weaknesses while maintaining clear evidence of the testing process.
+The objective was to identify potential security weaknesses, inspect application behavior, validate scanner observations, document evidence, and provide appropriate remediation recommendations.
 
----
+Testing covered both the Vite development environment and a separately generated production build.
 
 ## Objectives
 
-- Identify exposed services and technologies
-- Analyze HTTP and browser behavior
-- Discover application endpoints and attack surfaces
-- Assess authentication and authorization controls
-- Test input validation and common web vulnerabilities
-- Assess API security where applicable
-- Validate identified vulnerabilities
-- Document security findings and evidence
-- Provide remediation recommendations
-- Perform retesting after remediation
+- Identify exposed services and application technologies.
+- Analyze HTTP requests, responses, and browser behavior.
+- Inspect application resources and development endpoints.
+- Assess security headers and browser security configurations.
+- Analyze application traffic using Burp Suite.
+- Perform automated security scanning using OWASP ZAP.
+- Investigate potential information disclosure.
+- Perform initial input-handling and XSS checks.
+- Assess production-build resource exposure.
+- Validate and document security observations.
+- Provide remediation recommendations.
+- Prepare a final penetration testing report.
 
 ---
 
 ## Methodology
 
-The assessment follows:
+The assessment followed a structured workflow:
 
-**Learn → Test → Capture Evidence → Verify → Assess Impact → Remediate → Retest**
+**Reconnaissance → Testing → Evidence Collection → Verification → Impact Assessment → Findings Documentation → Remediation Recommendations**
 
-Testing is performed progressively from reconnaissance to manual analysis, automated testing, vulnerability validation, and final reporting.
+Automated scanner alerts were manually reviewed. Observations were not automatically classified as confirmed vulnerabilities.
 
 ---
 
@@ -68,28 +74,37 @@ Testing is performed progressively from reconnaissance to manual analysis, autom
 
 ### In Scope
 
-- Web application functionality
-- HTTP requests and responses
-- Client-side resources
-- Routes and endpoints
-- Authentication and authorization
-- Sessions and browser storage
-- Input validation and  API behavior
-- Security headers
-- CORS configuration
-- Information disclosure
-- Business logic
-- Relevant services exposed by the authorized test environment
+- Network and service reconnaissance.
+- Web technology fingerprinting.
+- HTTP requests and responses.
+- Browser network activity.
+- Client-side resources.
+- Vue/Vite development resources.
+- WebSocket traffic.
+- Security headers.
+- CORS behavior.
+- Information disclosure.
+- Initial input validation and XSS checks.
+- Production-build assessment.
+
+### Not Applicable / Not Performed
+
+Based on the functionality identified during inspection:
+
+- Authentication testing: No application authentication functionality identified.
+- Authorization testing: No protected application functionality identified.
+- API security testing: No conventional backend API communication identified in the inspected source.
+- CSRF testing: No relevant state-changing application functionality identified.
+- Post-remediation retesting: Not performed because application-side fixes were not implemented.
 
 ### Out of Scope
 
-- Third-party systems and Unauthorized systems
-- Other users' systems or data
-- Denial-of-service testing
-- Destructive testing
-- Social engineering
-- Physical security testing
-- Netlify infrastructure
+- Unauthorized systems and third-party applications.
+- Denial-of-service testing.
+- Destructive testing.
+- Social engineering.
+- Physical security testing.
+- Third-party infrastructure.
 
 ---
 
@@ -97,42 +112,95 @@ Testing is performed progressively from reconnaissance to manual analysis, autom
 
 | Tool | Purpose |
 |---|---|
-| Firefox DevTools | Browser and network analysis |
-| curl | HTTP request and response analysis |
-| Nmap | Port and service enumeration |
+| Nmap | Network and service reconnaissance |
 | WhatWeb | Web technology fingerprinting |
-| Wappalyzer | Client-side technology identification |
+| Wappalyzer | Application technology identification |
+| curl | HTTP request and response analysis |
+| Firefox Developer Tools | Browser and network analysis |
 | Burp Suite | HTTP interception and manual testing |
-| OWASP ZAP | Automated web security testing |
-| ffuf | Endpoint and parameter discovery |
-| Nikto | Web server security assessment |
-| Gobuster | Content and directory discovery |
-| SQLMap | SQL injection testing where applicable |
-| Python | Custom security testing and automation |
-| OpenSSL | TLS/security analysis where applicable |
+| OWASP ZAP | Automated security scanning and alert analysis |
+| PowerShell | Application source inspection |
+| Git and GitHub | Version control and documentation |
+
+---
 
 ## Testing Progress
 
 | Phase | Status |
 |---|---|
-| Reconnaissance | Completed |
-| HTTP & Browser Analysis | Completed |
-| Burp Suite | Completed |
-| OWASP ZAP | Completed |
-| Endpoint Discovery | Pending |
-| Authentication Testing | Pending |
-| Authorization Testing | Pending |
-| Session Security | Pending |
-| Input Validation | Pending |
-| XSS Testing | Pending |
-| CSRF Testing | Pending |
-| API Security | Pending |
-| Vulnerability Validation | Pending |
-| Remediation | Pending |
-| Retesting | Pending |
-| Final Report | Pending |
+| Project Scope and Authorization | Completed |
+| Nmap Reconnaissance | Completed |
+| WhatWeb Fingerprinting | Completed |
+| Wappalyzer Technology Detection | Completed |
+| HTTP and Browser Analysis | Completed |
+| Vue/Vite Source Inspection | Completed |
+| Burp Suite Testing | Completed |
+| OWASP ZAP Passive Scanning | Completed |
+| OWASP ZAP Active Scanning | Completed |
+| Endpoint and Source Discovery | Initial Checks Completed |
+| Authentication Assessment | Not Applicable to Identified Functionality |
+| Authorization Assessment | Not Applicable to Identified Functionality |
+| Session and Browser Storage Analysis | Initial Checks Completed |
+| Input Validation and XSS | Limited Checks Completed; No Vulnerability Confirmed |
+| API Security Assessment | Not Applicable to Identified Architecture |
+| CSRF Assessment | Not Applicable to Identified Functionality |
+| Production Build Assessment | Completed |
+| Production Resource Exposure Checks | Completed for Selected Paths |
+| Findings Documentation | Completed |
+| Remediation Recommendations | Documented |
+| Application-Side Remediation | Not Implemented |
+| Post-Remediation Retesting | Not Performed |
+| Final Report | Prepared |
+| GitHub Documentation and Cleanup | Final Review Pending |
 
 ---
+
+## Security Assessment Summary
+
+### 1. Security Header Observations
+
+Three missing security headers were observed in the inspected Vite production-preview response:
+
+- `Content-Security-Policy`
+- `X-Frame-Options`
+- `X-Content-Type-Options`
+
+These are documented as security configuration and hardening observations. Their final severity depends on the actual production deployment and application requirements.
+
+### 2. Development Resource Exposure
+
+Development resources and transformed Vue source files were accessible through the Vite development server.
+
+The inspected production preview returned the application HTML fallback for selected development-resource paths.
+
+No standalone source-map files were found in the production build.
+
+### 3. XSS Assessment
+
+Initial XSS checks were performed.
+
+No XSS vulnerability was confirmed during the limited testing performed.
+
+### 4. Automated Scanning
+
+OWASP ZAP identified security-header observations and informational alerts.
+
+The Dev Standard active scan completed with:
+
+- 4,970 requests.
+- 100% completion.
+- Zero new active-scan alerts.
+
+Scanner-generated false positives and informational observations were manually reviewed.
+
+### 5. Overall Assessment
+
+No confirmed exploitable application vulnerability was established through the documented testing.
+
+The assessment identified security hardening opportunities and development-environment information exposure.
+
+---
+
 ## Documentation
 
 ### Reconnaissance
@@ -143,31 +211,37 @@ Initial reconnaissance covering Nmap, WhatWeb, and Wappalyzer.
 
 ### Web Application Testing
 
-Manual HTTP and browser-based analysis using curl and Firefox Developer Tools.
+Manual HTTP, browser, source-resource, and production-preview analysis.
 
 [View Web Testing Documentation](web-testing/README.md)
 
 ### Burp Suite
 
+HTTP interception, Repeater, Site Map, HTTP method testing, and WebSocket analysis.
+
 [View Burp Suite Documentation](burp-suite/README.md)
 
 ### OWASP ZAP
 
+Passive scanning, active scanning, manual alert validation, and false-positive identification.
+
 [View OWASP ZAP Documentation](owasp-zap/README.md)
 
-### Vulnerability Testing
+### Security Findings
 
-[View Vulnerability Testing](vulnerability-testing/README.md)
-
-### Findings
+Consolidated security observations, evidence references, impact assessment, and validation status.
 
 [View Security Findings](findings/findings.md)
 
 ### Remediation
 
-[View Remediation](remediation/fixes.md)
+Recommended security configuration improvements and remediation guidance.
+
+[View Remediation Recommendations](remediation/fixes.md)
 
 ### Final Report
+
+Complete penetration testing assessment, results, limitations, and conclusion.
 
 [View Final Report](reports/final-report.md)
 
@@ -175,31 +249,74 @@ Manual HTTP and browser-based analysis using curl and Firefox Developer Tools.
 
 ## Evidence
 
-Evidence screenshots are organized within the relevant testing sections.
+Screenshots and testing evidence are organized within their respective testing directories.
 
 ### Reconnaissance Evidence
 
 - Nmap
 - WhatWeb
 - Wappalyzer
-- Target application
+- Target application overview
 
 [View Reconnaissance Evidence](reconnaissance/README.md)
 
 ### Web Testing Evidence
 
-- curl
-- Firefox Developer Tools
-- HTTP request and response analysis
+- HTTP response analysis
+- Browser Developer Tools
+- Vue/Vite source inspection
+- Browser network and session analysis
+- Production security-header assessment
 
 [View Web Testing Evidence](web-testing/README.md)
 
-All public evidence is sanitized to remove local IP addresses and other environment-specific or sensitive information.
+### Burp Suite Evidence
+
+- HTTP History
+- Repeater
+- HTTP method testing
+- Site Map
+- WebSocket analysis
+
+[View Burp Suite Evidence](burp-suite/README.md)
+
+### OWASP ZAP Evidence
+
+- Passive scan alerts
+- Active scan results
+- Manual alert validation
+- False-positive analysis
+
+[View OWASP ZAP Evidence](owasp-zap/README.md)
+
+All public evidence must be sanitized to remove local IP addresses, usernames, filesystem paths, tokens, and other sensitive information.
+
+---
+
+## Remediation Status
+
+Remediation recommendations have been documented.
+
+Application-side fixes were not implemented or verified as part of this assessment.
+
+Post-remediation retesting was not performed.
+
+The recommendations are provided for consideration by the application owner.
 
 ---
 
 ## Authorization
 
-Testing is performed with explicit permission from the application owner against the a authorized local development environment.
+Testing was performed with explicit permission from the application owner against the authorized Planetorium application.
 
-The assessment is limited to the defined scope and does not include unauthorized systems or third-party infrastructure.
+The assessment was limited to the defined scope and did not intentionally target unauthorized systems or third-party infrastructure.
+
+---
+
+## Disclaimer
+
+This repository is intended for educational and cybersecurity portfolio purposes.
+
+All testing was performed within the authorized scope. Scanner alerts and security observations should not automatically be interpreted as confirmed vulnerabilities.
+
+**Project Status: Security Assessment and Documentation Completed.**
