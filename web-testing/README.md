@@ -13,6 +13,7 @@ Testing focused on HTTP behavior, response headers, browser network activity, Ja
 Used `curl` to inspect HTTP responses, headers, and supported request methods.
 
 Tests performed:
+
 - HTTP response analysis
 - GET request analysis
 - Verbose HTTP request/response inspection
@@ -21,6 +22,7 @@ Tests performed:
 - Selected resource accessibility checks
 
 Key observations:
+
 - The application returned `HTTP 200 OK` for the main page.
 - The response used `Content-Type: text/html`.
 - `Cache-Control: no-cache` and `ETag` headers were present.
@@ -49,6 +51,7 @@ The observed resources were consistent with a Vue application served through Vit
 Selected application resources were inspected to understand the exposed development environment.
 
 Observations:
+
 - `/src/main.js` returned JavaScript.
 - `/src/App.vue` returned transformed Vue component code.
 - `/package.json` returned application dependency and script metadata.
@@ -61,16 +64,41 @@ These observations indicate development-resource exposure. They do not independe
 
 ## Security Header Assessment
 
-The main HTTP response was checked for common security headers.
+The development-server HTTP response was checked for common security headers.
 
 The observed response did not include:
+
 - `Content-Security-Policy`
 - `X-Frame-Options`
 - `X-Content-Type-Options`
 
 These observations are consistent with the findings identified during OWASP ZAP passive scanning.
 
-Because the target was running through a Vite development server, the missing headers are documented as observations requiring deployment-context assessment, rather than automatically classified as production vulnerabilities.
+Because the initial target was running through a Vite development server, the missing headers were initially documented as observations requiring deployment-context assessment.
+
+### Production Preview Assessment
+
+A production build was generated successfully using:
+
+`npm run build`
+
+The generated `dist/index.html` referenced bundled JavaScript and CSS assets. No standalone `.map` files were found in the production build.
+
+The production preview was subsequently tested at the local authorized preview address.
+
+Observations:
+
+- The production preview returned `HTTP 200 OK`.
+- The response did not include `Content-Security-Policy`.
+- The response did not include `X-Frame-Options`.
+- The response did not include `X-Content-Type-Options`.
+- Selected development-resource paths returned the application's HTML fallback rather than the requested development files.
+- No standalone source-map files were found.
+- The production bundle search returned no matches for the checked development-client references, local filesystem path pattern, or source-map references.
+
+The missing security headers were therefore also observed in the Vite production-preview response.
+
+The production preview is not necessarily representative of the final hosting configuration. These observations should be reassessed if the application is deployed behind a different production web server or hosting platform.
 
 ## Evidence
 
@@ -106,11 +134,12 @@ Because the target was running through a Vite development server, the missing he
 
 ![Components directory check](screenshots/08-vue-components-directory-check.png)
 
-### Browser Network and Session Analysis
+### 9. Browser Network and Session Analysis
 
 ![Browser network and session analysis](screenshots/09-browser-network-session-analysis.png)
 
 **Observations:**
+
 - Vue/Vite development resources loaded successfully in the displayed requests.
 - HTTP `200`, `304`, and `101` responses were observed.
 - The `101` response corresponded to the Vite development WebSocket connection.
@@ -120,16 +149,29 @@ Because the target was running through a Vite development server, the missing he
 
 **Assessment:** No authentication or session-management vulnerability was established by these checks. The observed Local Storage entries were development-tool preferences, not identified authentication credentials.
 
+### 10. Production Security Header Assessment
 
+![Production security header assessment](screenshots/12-production-security-headers.png)
+
+**Observations:**
+
+- The production preview returned `HTTP 200 OK`.
+- The inspected response did not include `Content-Security-Policy`.
+- `X-Frame-Options` was absent.
+- `X-Content-Type-Options` was absent.
+
+**Assessment:** The three missing security headers were confirmed in the inspected Vite production-preview response. Their final severity depends on the actual deployment configuration and application requirements.
 
 ## Assessment Notes
 
 - The target was tested with authorization from its owner.
-- The application was running in a Vite development environment.
+- Initial testing was performed against a Vite development environment.
+- A separate production build and local preview were subsequently tested.
 - Development-server behavior must be distinguished from production behavior.
 - HTTP status codes and exposed resources are not automatically vulnerabilities.
 - CORS behavior must be evaluated using the complete response and browser-enforced policy.
 - Potential findings require manual verification and impact assessment.
+- The production preview does not necessarily represent the final hosting configuration.
 - Screenshots and published evidence must not expose private filesystem paths, usernames, tokens, or other sensitive information.
 
 ## Status
@@ -142,8 +184,11 @@ Because the target was running through a Vite development server, the missing he
 - [x] Vue/Vite development-resource inspection
 - [x] Selected endpoint accessibility checks
 - [x] Initial security header assessment
+- [x] Production build generation
+- [x] Production preview assessment
+- [x] Production development-resource accessibility checks
 - [x] Evidence collection
 
-**Phase status:** Completed — initial HTTP and browser-based analysis.
+**Phase status:** Completed — HTTP, browser, and production-preview analysis.
 
 **Note:** This phase does not represent completion of the overall penetration test. Authentication, authorization, input validation, vulnerability validation, remediation, and retesting are tracked separately.
