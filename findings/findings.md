@@ -4,22 +4,22 @@
 
 This document consolidates observations from the authorized security assessment of the Planetorium web application.
 
-Testing covered reconnaissance, HTTP and browser analysis, Burp Suite inspection, OWASP ZAP scanning, source-resource discovery, and initial XSS checks.
+Testing covered reconnaissance, HTTP and browser analysis, Burp Suite inspection, OWASP ZAP scanning, source-resource discovery, initial XSS checks, and production-build assessment.
 
-The target was running through a Vue/Vite development server. Findings must therefore be interpreted in the context of the development environment and must not automatically be treated as confirmed production vulnerabilities.
+The application was assessed using a Vue/Vite development server and a locally hosted production preview. Findings must be interpreted within these tested environments. The local production preview does not represent a full assessment of the final public hosting environment.
 
 ## 2. Findings Summary
 
 | ID | Finding | Initial Severity | Status |
 |---|---|---|---|
-| F-01 | Content Security Policy (CSP) Header Not Set | Informational / Low pending context assessment | Observed; validation pending |
-| F-02 | Anti-clickjacking Header Missing | Informational / Low pending context assessment | Observed; validation pending |
-| F-03 | X-Content-Type-Options Header Missing | Informational / Low pending context assessment | Observed; validation pending |
-| F-04 | Development Resource and Source Metadata Exposure | Informational / Low pending context assessment | Observed; impact assessment pending |
+| F-01 | Content Security Policy (CSP) Header Not Set | Informational / Low pending context assessment | Observed in development and production preview |
+| F-02 | Anti-clickjacking Header Missing | Informational / Low pending context assessment | Observed in development and production preview |
+| F-03 | X-Content-Type-Options Header Missing | Informational / Low pending context assessment | Observed in development and production preview |
+| F-04 | Development Resource and Source Metadata Exposure | Informational / Low pending context assessment | Observed in development; not reproduced in selected production-preview checks |
 | F-05 | XSS Testing | Not applicable as a confirmed finding | No vulnerability confirmed during limited testing |
 | F-06 | Authentication and Session Management | Not applicable to identified functionality | No authentication functionality identified |
 
-**Severity note:** The header observations originate from automated scanning of a development server. Final severity depends on deployment context, exploitability, and security impact. No severity should be considered final until validation is complete.
+**Severity note:** Missing security headers are configuration observations. Their actual severity depends on deployment context, application functionality, exploitability, and security impact. No confirmed exploitable vulnerability was established by the documented testing.
 
 ---
 
@@ -28,18 +28,21 @@ The target was running through a Vue/Vite development server. Findings must ther
 ### F-01: Content Security Policy (CSP) Header Not Set
 
 **Initial severity:** Informational / Low pending context assessment  
-**Status:** Observed; validation pending  
+**Status:** Observed in development and local production-preview responses  
 **Category:** Security configuration
 
 #### Observation
 
 OWASP ZAP reported that the HTTP response did not include a `Content-Security-Policy` header.
 
+The missing header was also observed during the local production-preview HTTP response-header assessment.
+
 #### Evidence
 
 - [ZAP CSP Alert](../owasp-zap/screenshots/02-zap-csp-header-not-set.png)
-- [HTTP Response Headers](../web-testing/screenshots/04-devtools-http-headers.png)
+- [Development HTTP Response Headers](../web-testing/screenshots/04-devtools-http-headers.png)
 - [Burp HTTP Response Headers](../burp-suite/screenshots/08-burp-http-response-headers.png)
+- [Production Preview Security Headers](../web-testing/screenshots/12-production-security-headers.png)
 
 #### Security Impact
 
@@ -51,28 +54,31 @@ The absence of this header alone does not prove that an exploitable vulnerabilit
 
 Define and deploy a Content Security Policy appropriate to the application. Test the policy in report-only mode before enforcing it, and account for legitimate scripts, styles, and other resources.
 
-#### Validation Required
+#### Validation
 
-- Confirm the header behavior in the intended production deployment.
-- Determine whether the application has other effective content restrictions.
-- Assess whether the proposed policy can be deployed without breaking application functionality.
+- Missing CSP header observed in the development environment.
+- Missing CSP header also observed in the local production preview.
+- The final public hosting environment was not independently assessed.
 
 ---
 
 ### F-02: Anti-clickjacking Header Missing
 
 **Initial severity:** Informational / Low pending context assessment  
-**Status:** Observed; validation pending  
+**Status:** Observed in development and local production-preview responses  
 **Category:** Security configuration
 
 #### Observation
 
 OWASP ZAP reported a missing anti-clickjacking response header.
 
+The corresponding framing-protection header was also absent in the inspected local production-preview response.
+
 #### Evidence
 
 - [ZAP Anti-clickjacking Alert](../owasp-zap/screenshots/03-zap-missing-anti-clickjacking-header.png)
-- [HTTP Response Headers](../web-testing/screenshots/04-devtools-http-headers.png)
+- [Development HTTP Response Headers](../web-testing/screenshots/04-devtools-http-headers.png)
+- [Production Preview Security Headers](../web-testing/screenshots/12-production-security-headers.png)
 
 #### Security Impact
 
@@ -84,35 +90,38 @@ The actual impact depends on the application's functionality and whether framing
 
 Use a suitable Content Security Policy `frame-ancestors` directive. Consider `X-Frame-Options` where appropriate for compatibility with older browsers.
 
-#### Validation Required
+#### Validation
 
-- Verify framing behavior in the intended deployment.
-- Determine whether the application contains sensitive actions or interactions that could be abused through framing.
-- Confirm the chosen policy does not interfere with legitimate embedding requirements.
+- Missing anti-clickjacking protection observed in the development environment.
+- Missing protection also observed in the local production preview.
+- The final public hosting environment was not independently assessed.
 
 ---
 
 ### F-03: X-Content-Type-Options Header Missing
 
 **Initial severity:** Informational / Low pending context assessment  
-**Status:** Observed; validation pending  
+**Status:** Observed in development and local production-preview responses  
 **Category:** Security configuration
 
 #### Observation
 
 OWASP ZAP reported that the `X-Content-Type-Options` response header was missing.
 
+The header was also absent in the inspected local production-preview response.
+
 #### Evidence
 
 - [ZAP X-Content-Type-Options Alert](../owasp-zap/screenshots/04-zap-x-content-type-options-missing.png)
-- [HTTP Response Headers](../web-testing/screenshots/04-devtools-http-headers.png)
+- [Development HTTP Response Headers](../web-testing/screenshots/04-devtools-http-headers.png)
 - [Burp HTTP Response Headers](../burp-suite/screenshots/08-burp-http-response-headers.png)
+- [Production Preview Security Headers](../web-testing/screenshots/12-production-security-headers.png)
 
 #### Security Impact
 
-Without `X-Content-Type-Options: nosniff`, browsers may perform MIME-type sniffing in situations where the declared content type would otherwise be used. The security implications depend on the resource type and how the application serves its content.
+Without `X-Content-Type-Options: nosniff`, browsers may perform MIME-type sniffing in situations where the declared content type would otherwise be used.
 
-The missing header alone does not demonstrate an exploitable vulnerability.
+The security implications depend on the resource type and how the application serves its content. The missing header alone does not demonstrate an exploitable vulnerability.
 
 #### Recommendation
 
@@ -122,18 +131,18 @@ Configure the intended web server or application deployment to return:
 
 Ensure that resources are served with appropriate content types.
 
-#### Validation Required
+#### Validation
 
-- Check the header on relevant responses in the intended deployment.
-- Confirm that JavaScript, stylesheets, and other resources use correct MIME types.
-- Retest after the configuration is updated.
+- Missing header observed in the development environment.
+- Missing header also observed in the local production preview.
+- The final public hosting environment was not independently assessed.
 
 ---
 
 ### F-04: Development Resource and Source Metadata Exposure
 
 **Initial severity:** Informational / Low pending context assessment  
-**Status:** Observed; impact assessment pending  
+**Status:** Observed in development; not reproduced in selected production-preview checks  
 **Category:** Information disclosure / Development configuration
 
 #### Observation
@@ -149,6 +158,10 @@ Some transformed source responses included local filesystem path metadata and in
 
 The `/src/components/` request returned the application's HTML page rather than a directory listing. A request to `/.env` also returned HTML, which did not establish that an environment file was exposed.
 
+A production build was generated successfully. The generated build did not contain the inspected `.map` source-map files or the Vite development-client reference.
+
+Selected production-preview requests for development-related paths returned the normal HTML application page rather than the requested development resources.
+
 #### Evidence
 
 - [Vue Source Metadata](../web-testing/screenshots/05-vue-source-metadata-disclosure.png)
@@ -156,12 +169,13 @@ The `/src/components/` request returned the application's HTML page rather than 
 - [Vue Component Discovery](../web-testing/screenshots/07-vue-component-discovery.png)
 - [Vue Components Directory Check](../web-testing/screenshots/08-vue-components-directory-check.png)
 - [Burp Site Map](../burp-suite/screenshots/05-burp-site-map.png)
+- [Production Preview Security Headers](../web-testing/screenshots/12-production-security-headers.png)
 
 #### Security Impact
 
 Development resources and filesystem paths can reveal implementation details, project structure, dependency information, and local environment details.
 
-The observed behavior is consistent with a development server. Its presence does not establish that the same resources would be exposed in a production deployment.
+The observed behavior was consistent with a development server. The selected production-preview checks did not reproduce the same development-resource exposure.
 
 No exposed environment secrets were confirmed by these checks.
 
@@ -173,11 +187,13 @@ No exposed environment secrets were confirmed by these checks.
 - Avoid including sensitive filesystem metadata in publicly served resources.
 - Verify that environment files and secrets are not included in deployment artifacts.
 
-#### Validation Required
+#### Validation
 
-- Test the production build and intended hosting configuration.
-- Verify whether development-only endpoints and transformed source files remain accessible.
-- Confirm that sensitive files and secrets are not exposed.
+- Development-resource exposure confirmed in the development environment.
+- Production build generated successfully.
+- No `.map` files were identified in the inspected build output.
+- Selected development-resource paths did not reproduce the exposure in the local production preview.
+- The final public hosting environment was not independently assessed.
 
 ---
 
@@ -198,12 +214,6 @@ No exposed environment secrets were confirmed by these checks.
 - Reading the query parameter through the browser's URL API worked normally.
 - The filtered search did not visibly identify `innerHTML` usage in application-owned source files.
 - Remaining visible matches were in Vue DevTools and installed dependencies.
-
-#### Evidence
-
-Relevant evidence is available in the existing web-testing documentation and source-inspection screenshots.
-
-No additional screenshot is required for this limited negative result.
 
 #### Assessment
 
@@ -247,6 +257,8 @@ The following observations are not treated as confirmed vulnerabilities based on
 - Suspicious-comment alerts containing comments that were not demonstrated to expose sensitive information.
 - Supported HTTP methods reported by an OPTIONS response. The method list alone does not demonstrate unauthorized access or a vulnerability.
 - A request to `/.env` returning HTML. This did not confirm exposure of an environment file.
+- A ZAP email alert caused by a CSS `@keyframes` match, which was assessed as a false positive.
+- Informational alerts related to the Vite development environment.
 
 These observations should only be reclassified if additional evidence demonstrates a security impact.
 
@@ -256,30 +268,39 @@ These observations should only be reclassified if additional evidence demonstrat
 
 | Finding | Validation | Remediation | Retest |
 |---|---|---|---|
-| F-01: CSP | Pending | Pending | Pending |
-| F-02: Anti-clickjacking | Pending | Pending | Pending |
-| F-03: X-Content-Type-Options | Pending | Pending | Pending |
-| F-04: Development resource exposure | Pending production-context verification | Pending | Pending |
-| F-05: XSS | Limited checks completed; no vulnerability confirmed | Not applicable unless a weakness is identified | Not applicable unless a weakness is identified |
+| F-01: CSP | Missing in development and local production preview | Recommendation documented; not implemented | Not performed |
+| F-02: Anti-clickjacking | Missing in development and local production preview | Recommendation documented; not implemented | Not performed |
+| F-03: X-Content-Type-Options | Missing in development and local production preview | Recommendation documented; not implemented | Not performed |
+| F-04: Development resource exposure | Observed in development; not reproduced in selected production-preview checks | Recommendation documented; not implemented | Not performed |
+| F-05: XSS | Limited checks completed; no vulnerability confirmed | Not applicable unless a weakness is identified | Not applicable |
 | F-06: Authentication/session management | Not applicable to identified functionality | Not applicable | Not applicable |
+
+**Important:** No application-side remediation was implemented as part of this assessment. Post-remediation retesting was therefore not performed.
+
+---
 
 ## 6. Assessment Limitations
 
 - The target was tested with authorization from its owner.
-- Testing was performed against a local Vue/Vite development environment.
+- Testing was performed against a local Vue/Vite development environment and a local production preview.
+- The final public hosting environment was not independently assessed.
 - Development-server behavior may differ from production behavior.
 - Automated scanner alerts were not automatically treated as confirmed vulnerabilities.
 - XSS checks were limited and do not prove the absence of all XSS vulnerabilities.
 - No application authentication functionality was identified during initial inspection.
-- Findings requiring production-context verification remain provisional.
+- No application-side remediation was implemented.
+- No post-remediation retesting was performed.
 - Evidence screenshots must be sanitized before publication.
+
+---
 
 ## 7. Current Status
 
-**Findings documentation:** Initial consolidation prepared  
-**Confirmed exploitable vulnerabilities:** None established by the observations documented here  
-**Configuration observations:** Three missing security headers reported by ZAP  
-**Development exposure:** Observed; production impact not established  
-**Next phase:** Validate applicable findings, document remediation recommendations, and retest any changes.
-
-This document should be updated as findings are manually verified and their impact, severity, and remediation status are established.
+**Findings documentation:** Updated with development and production-preview validation results  
+**Confirmed exploitable vulnerabilities:** None established by the documented observations  
+**Configuration observations:** Three missing security headers observed in development and local production-preview responses  
+**Development exposure:** Observed in development; not reproduced in selected production-preview checks  
+**Remediation recommendations:** Documented  
+**Application-side remediation:** Not implemented  
+**Post-remediation retesting:** Not performed  
+**Assessment status:** Completed within the documented scope

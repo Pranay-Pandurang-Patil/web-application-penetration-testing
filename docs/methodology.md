@@ -2,163 +2,164 @@
 
 ## Approach
 
-The assessment follows a structured and repeatable penetration testing workflow.
+The assessment followed a structured workflow for the authorized security testing of the Planetorium web application.
 
-The primary principle is:
+The primary workflow was:
 
-**Learn → Test → Capture Evidence → Verify → Assess Impact → Remediate → Retest**
+**Learn → Test → Capture Evidence → Verify → Assess Impact → Document Findings**
 
-Potential vulnerabilities identified by automated tools will be manually verified before being classified as security findings.
+Potential vulnerabilities identified by automated tools were manually reviewed before being classified as security findings.
+
+The assessment covered the local Vue/Vite development environment and a locally hosted production preview.
 
 ## Phase 1 — Reconnaissance
 
-Objective: Understand the application's technologies, structure, network exposure, and client-side behavior.
+**Objective:** Understand the application's technologies, structure, network exposure, and client-side behavior.
 
-Tools:
-
-- Browser Developer Tools
-- curl
+**Tools:**
 - Nmap
 - WhatWeb
 - Wappalyzer
+- Browser Developer Tools
+- curl
 
-Activities:
+**Activities:**
+- Inspect network requests.
+- Analyze HTTP responses and headers.
+- Identify technologies and frameworks.
+- Identify exposed services and ports.
+- Discover application resources.
+- Inspect client-side behavior.
 
-- Inspect network requests
-- Analyze HTTP responses and headers
-- Identify technologies and frameworks
-- Identify exposed services and ports
-- Discover application resources and endpoints
-- Inspect client-side JavaScript
+## Phase 2 — HTTP and Web Analysis
 
-## Phase 2 — HTTP & Web Analysis
+**Objective:** Understand how the application communicates over HTTP.
 
-Objective: Understand how the application communicates over HTTP.
-
-Activities:
-
-- Request and response analysis
-- HTTP method testing
-- Header analysis
-- Cookie analysis
-- Browser storage analysis
-- Redirect behavior
-- CORS behavior
-- Client-side resource analysis
+**Activities:**
+- Request and response analysis.
+- HTTP method testing.
+- Header analysis.
+- Cookie inspection.
+- Browser storage analysis.
+- CORS behavior checks.
+- Client-side resource analysis.
+- Development-resource inspection.
 
 ## Phase 3 — Manual Web Security Testing
 
-Objective: Identify vulnerabilities through controlled manual testing.
+**Objective:** Identify potential security weaknesses through controlled manual testing.
 
-Areas may include:
+**Areas considered:**
+- Authentication.
+- Authorization.
+- Session management.
+- Input validation.
+- Cross-Site Scripting (XSS).
+- CSRF.
+- API security.
+- Information disclosure.
 
-- Authentication
-- Authorization
-- Session management
-- Input validation
-- Cross-Site Scripting (XSS)
-- CSRF
-- IDOR/BOLA
-- Injection
-- File upload security
-- Information disclosure
-- Business logic
+Testing depended on the functionality actually present in the application.
 
-Testing will depend on the functionality actually present in the application.
+No application authentication functionality or conventional API communication was identified during the documented initial source inspection. These areas were therefore treated as not applicable to the identified application functionality.
 
-## Phase 4 — Automated Security Testing
+Limited XSS checks were performed. No XSS vulnerability was confirmed.
 
-Objective: Use security scanners to identify potential vulnerabilities efficiently.
+## Phase 4 — Burp Suite Testing
 
-Tools:
+**Objective:** Inspect and analyze application HTTP and WebSocket communication.
 
+**Tool:**
 - Burp Suite
+
+**Activities:**
+- HTTP history inspection.
+- Request and response analysis.
+- Repeater testing.
+- HTTP method testing.
+- Site map inspection.
+- WebSocket history and handshake analysis.
+- Response-header inspection.
+
+## Phase 5 — OWASP ZAP Testing
+
+**Objective:** Identify potential security configuration issues and other scanner-detected observations.
+
+**Tool:**
 - OWASP ZAP
-- ffuf
-- Nikto
-- Gobuster
 
-Automated findings will not automatically be considered confirmed vulnerabilities.
+**Activities:**
+- Passive scanning.
+- Alert inspection.
+- Manual alert validation.
+- Active scanning using the Dev Standard policy.
+- Final alert review.
 
-Each relevant result will be manually reviewed and validated.
+Automated findings were not automatically considered confirmed vulnerabilities. False positives and informational alerts were assessed separately.
 
-## Phase 5 — API Security Testing
+## Phase 6 — Production Build and Preview Assessment
 
-If APIs are identified, testing may include:
+**Objective:** Compare selected development-environment observations against a locally hosted production build.
 
-- Endpoint discovery
-- Authentication
-- Authorization
-- Input validation
-- Parameter manipulation
-- CORS
-- Rate limiting
-- Data exposure
-- Injection
-- Error handling
+**Activities:**
+- Generate the production build.
+- Inspect generated build files.
+- Check for source-map files.
+- Inspect production HTML and bundled resources.
+- Start the local production preview.
+- Check selected development-related paths.
+- Inspect production-preview HTTP response headers.
 
-## Phase 6 — Conditional Testing
+The production preview was used for local validation. It was not treated as a substitute for testing the final public hosting environment.
 
-Additional tools will only be used when the application's architecture requires them.
-
-Examples:
-
-- SQLMap for applications with SQL-backed functionality
-- JWT testing tools for JWT-based authentication
-- OpenSSL for TLS-related analysis
-- Python for custom security-testing scripts
-
-## Phase 7 — Vulnerability Validation
+## Phase 7 — Finding Validation and Reporting
 
 For each potential finding:
 
-1. Identify the behavior
-2. Reproduce the behavior
-3. Determine whether it is actually exploitable
-4. Assess security impact
-5. Record evidence
-6. Assign an appropriate severity
-7. Recommend remediation
+1. Identify the observed behavior.
+2. Review the available evidence.
+3. Determine whether the observation is reproducible.
+4. Assess potential security impact.
+5. Distinguish confirmed issues from informational alerts.
+6. Document the result.
+7. Recommend appropriate remediation where relevant.
 
-## Phase 8 — Remediation
+## Remediation and Retesting Status
 
-Where possible, identified vulnerabilities will be corrected in the authorized application.
+Remediation recommendations were documented in `remediation/fixes.md`.
 
-The original behavior and the corrected behavior will be documented.
+No application-side remediation was implemented as part of this assessment.
 
-## Phase 9 — Retesting
+Post-remediation retesting was not performed because no application-side fixes were applied.
 
-After remediation:
-
-1. Repeat the original test
-2. Verify that the vulnerability is no longer reproducible
-3. Check that the fix does not introduce another issue
-4. Record the retest result
+If remediation is implemented in the future, the original checks should be repeated and the results documented separately.
 
 ## Evidence Collection
 
-Evidence may include:
+Evidence collected during the assessment included:
 
-- Screenshots
-- HTTP requests
-- HTTP responses
-- Command output
-- Scanner results
-- Reproduction steps
-- Before/after behavior
+- Screenshots.
+- HTTP requests and responses.
+- Command output.
+- Browser Developer Tools observations.
+- Burp Suite results.
+- OWASP ZAP alerts.
+- Production-build and preview observations.
 
-Sensitive information will be redacted before publication.
+Sensitive information was reviewed and redacted before publication.
 
 ## Reporting
 
-Confirmed findings will be documented with:
+The final report documents:
 
-- Finding title
-- Severity
-- Affected component
-- Description
-- Evidence
-- Reproduction steps
-- Impact
-- Remediation
-- Retest status
+- Assessment objective and scope.
+- Authorization.
+- Methodology.
+- Tools used.
+- Testing activities.
+- Observations and findings.
+- Evidence.
+- Security impact.
+- Remediation recommendations.
+- Assessment limitations.
+- Remediation and retesting status.

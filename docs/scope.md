@@ -4,24 +4,30 @@
 
 **Application:** Planetorium Web Application
 
-**Target Environment:** Authorized local development deployment
+**Technology:** Vue.js and Vite
 
-**Target Address:** `TARGET_IP:5173`
+**Target Environments:**
+- Authorized local development deployment
+- Local production preview generated from the application build
+
+**Development Target Address:** `TARGET_IP:5173`
+
+**Production Preview Address:** `TARGET_IP:4173`
 
 ## Authorization
 
-Testing is performed with explicit permission from the application owner.
+Testing was performed with explicit permission from the application owner.
 
-The assessment is limited to the Planetorium application and the authorized local testing environment.
+The assessment was limited to the Planetorium application and the authorized local testing environments.
 
 ## In Scope
 
-The following areas are within scope:
+The following areas were included where relevant to the identified application functionality:
 
 - Web application functionality
 - HTTP requests and responses
 - Client-side JavaScript
-- Application routes and endpoints
+- Application resources
 - HTTP methods
 - Security headers
 - Cookies and browser storage
@@ -31,18 +37,18 @@ The following areas are within scope:
 - API endpoints, if implemented
 - Input validation
 - Client-side security
-- Business logic
 - Information disclosure
 - Network services relevant to the testing environment
 - Security configuration
+- Local production-build and preview behavior
 
 ## Out of Scope
 
-The following are outside the assessment scope:
+The following were outside the assessment scope:
 
 - Third-party applications and services
 - Other systems on the network
-- Netlify infrastructure
+- Public hosting infrastructure as an independently tested target
 - Other users' systems or data
 - Denial-of-service testing
 - Destructive testing
@@ -52,20 +58,23 @@ The following are outside the assessment scope:
 
 ## Testing Approach
 
-Testing will be performed using a combination of:
+Testing used a combination of:
 
 - Manual testing
 - Browser-based analysis
 - Command-line security tools
 - Automated vulnerability scanners
-- HTTP request manipulation
-- Fuzzing where appropriate
+- HTTP request analysis and manipulation
+- Source-resource inspection
 - Manual verification of potential vulnerabilities
+- Local production-build and preview assessment
+
+Testing was limited to functionality and components identified during the assessment.
 
 ## Evidence Handling
 
-Testing evidence will be collected during the assessment.
+Testing evidence was collected during the assessment.
 
-Screenshots and command output will be reviewed and sanitized before being published to the public repository.
+Screenshots and command output were reviewed and sanitized before publication to the public repository.
 
-Sensitive information will not be published.
+Sensitive information was not intentionally published.
